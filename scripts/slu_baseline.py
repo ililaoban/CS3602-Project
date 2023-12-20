@@ -70,6 +70,9 @@ def decode(choice):
             labels.extend(label)
             total_loss += loss
             count += 1
+        # Bo Huang
+        if args.pinyin_correction and choice == "dev":
+            predictions = Example.pinyin_correction(predictions=predictions)
         metrics = Example.evaluator.acc(predictions, labels)
     torch.cuda.empty_cache()
     gc.collect()
@@ -89,6 +92,9 @@ def predict():
             for pi, p in enumerate(pred):
                 did = current_batch.did[pi]
                 predictions[did] = p
+    # Bo Huang(not implemented error)
+    # if args.pinyin_correction:
+    #     predictions = Example.pinyin_correction(predictions)
     test_json = json.load(open(test_path, 'r'))
     ptr = 0
     for ei, example in enumerate(test_json):

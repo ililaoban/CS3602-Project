@@ -3,6 +3,7 @@ import json
 from utils.vocab import Vocab, LabelVocab
 from utils.word2vec import Word2vecUtils
 from utils.evaluator import Evaluator
+from utils.pinyin import pinyin_denoise
 
 class Example():
 
@@ -45,3 +46,21 @@ class Example():
         self.input_idx = [Example.word_vocab[c] for c in self.utt]
         l = Example.label_vocab
         self.tag_id = [l.convert_tag_to_idx(tag) for tag in self.tags]
+
+    # Bo Huang
+    @classmethod
+    def pinyin_correction(cls, predictions):
+        select_pos_set = {'poi名称', 'poi修饰', 'poi目标', '起点名称', '起点修饰', '起点目标', '终点名称', '终点修饰', '终点目标', '途经点名称'}
+        select_others_set = {'请求类型': [cls.label_vocab.request_map_dic, cls.label_vocab.request_pinyin_set], \
+        '出行方式' : [cls.label_vocab.travel_map_dic, cls.label_vocab.travel_pinyin_set], \
+        '路线偏好' : [cls.label_vocab.route_map_dic, cls.label_vocab.route_pinyin_set], \
+        '对象' :  [cls.label_vocab.object_map_dic, cls.label_vocab.object_pinyin_set], \
+        '页码' : [cls.label_vocab.page_map_dic, cls.label_vocab.page_pinyin_set], \
+        '操作' : [cls.label_vocab.opera_map_dic, cls.label_vocab.opera_pinyin_set], \
+        '序列号' : [cls.label_vocab.ordinal_map_dic, cls.label_vocab.ordinal_pinyin_set]   }
+        return pinyin_denoise(
+                            predictions = predictions, 
+                            select_pos_set = select_pos_set, 
+                            select_others_set = select_others_set,
+                            example_map_dic=cls.label_vocab.poi_map_dic,
+                            example_pinyin_set=cls.label_vocab.poi_pinyin_set)
