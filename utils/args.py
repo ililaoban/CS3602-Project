@@ -21,10 +21,14 @@ def add_argument_base(arg_parser):
     arg_parser.add_argument('--batch_size', default=32, type=int, help='Batch size')
     arg_parser.add_argument('--lr', type=float, default=1e-3, help='learning rate')
     arg_parser.add_argument('--max_epoch', type=int, default=100, help='terminate after maximum epochs')
+    arg_parser.add_argument('--augment', action='store_true', help='Enable data augement.')
     #### Common Encoder Hyperparams ####
-    arg_parser.add_argument('--encoder_cell', default='LSTM', choices=['LSTM', 'GRU', 'RNN'], help='root of data')
+    arg_parser.add_argument('--encoder_cell', default='LSTM', choices=['LSTM', 'BERT'], help='Encoder cell')
     arg_parser.add_argument('--dropout', type=float, default=0.2, help='feature dropout rate')
     arg_parser.add_argument('--embed_size', default=768, type=int, help='Size of word embeddings')
     arg_parser.add_argument('--hidden_size', default=512, type=int, help='hidden size')
     arg_parser.add_argument('--num_layer', default=2, type=int, help='number of layer')
+    #### Common Decoder Hyperparams ####
+    arg_parser.add_argument('--crf', action='store_true', help='Enable CRF')
+
     return arg_parser

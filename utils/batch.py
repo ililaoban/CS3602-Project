@@ -23,12 +23,12 @@ def from_example_list(args, ex_list, device='cpu', train=True):
         tag_ids = [ex.tag_id + [tag_pad_idx] * (max_tag_lens - len(ex.tag_id)) for ex in ex_list]
         tag_mask = [[1] * len(ex.tag_id) + [0] * (max_tag_lens - len(ex.tag_id)) for ex in ex_list]
         batch.tag_ids = torch.tensor(tag_ids, dtype=torch.long, device=device)
-        batch.tag_mask = torch.tensor(tag_mask, dtype=torch.float, device=device)
+        batch.tag_mask = torch.tensor(tag_mask, dtype=torch.uint8, device=device)
     else:
         batch.labels = None
         batch.tag_ids = None
         tag_mask = [[1] * len(ex.input_idx) + [0] * (max_len - len(ex.input_idx)) for ex in ex_list]
-        batch.tag_mask = torch.tensor(tag_mask, dtype=torch.float, device=device)
+        batch.tag_mask = torch.tensor(tag_mask, dtype=torch.uint8, device=device)
 
     return batch
 

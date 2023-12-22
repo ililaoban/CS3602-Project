@@ -21,10 +21,16 @@ print("Initialization finished ...")
 print("Random seed is set to %d" % (args.seed))
 print("Use GPU with index %s" % (args.device) if args.device >= 0 else "Use CPU as target torch device")
 
+if args.crf:
+    print("CRF is enabled")
+if args.augment:
+    print("Augment is enabled")
+
 start_time = time.time()
-train_path = os.path.join(args.dataroot, 'train.json')
+train_file = 'augmented_train_with_ontology.json' if args.augment else 'train.json'
+train_path = os.path.join(args.dataroot, train_file)
 dev_path = os.path.join(args.dataroot, 'development.json')
-Example.configuration(args.dataroot, train_path=train_path, word2vec_path=args.word2vec_path)
+Example.configuration(args, train_path=train_path, word2vec_path=args.word2vec_path)
 train_dataset = Example.load_dataset(train_path)
 dev_dataset = Example.load_dataset(dev_path)
 print("Load dataset and database finished, cost %.4fs ..." % (time.time() - start_time))
@@ -123,6 +129,30 @@ if not args.testing:
         print('Training: \tEpoch: %d\tTime: %.4f\tTraining Loss: %.4f' % (i, time.time() - start_time, epoch_loss / count))
         torch.cuda.empty_cache()
         gc.collect()
+
+
+        # start_time = time.time()
+        # epoch_loss = 0
+        # count = 0
+        # for step, (inputs, labels) in enumerate(loader):
+        #     #模型计算
+        #     #[b, lens] -> [b, lens, 8]
+        #     # 输入也要放到 GPU 上
+        #     inputs = inputs.to(device)
+        #     labels = labels.to(device)
+        #     outs, loss = model(inputs, labels)
+            
+
+        #     #梯度下降
+        #     loss.backward()
+        #     optimizer.step()
+        #     optimizer.zero_grad()
+        #     epoch_loss += loss.item()
+        #     count += 1
+        
+        # print('Training: \tEpoch: %d\tTime: %.4f\tTraining Loss: %.4f' % (i, time.time() - start_time, epoch_loss / count))
+        # torch.cuda.empty_cache()
+        # gc.collect()
 
         start_time = time.time()
         metrics, dev_loss = decode('dev')

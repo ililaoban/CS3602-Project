@@ -7,11 +7,12 @@ from utils.evaluator import Evaluator
 class Example():
 
     @classmethod
-    def configuration(cls, root, train_path=None, word2vec_path=None):
+    def configuration(cls, args, train_path=None, word2vec_path=None):
         cls.evaluator = Evaluator()
         cls.word_vocab = Vocab(padding=True, unk=True, filepath=train_path)
         cls.word2vec = Word2vecUtils(word2vec_path)
-        cls.label_vocab = LabelVocab(root)
+        cls.label_vocab = LabelVocab(args.dataroot)
+        cls.crf = args.crf
 
     @classmethod
     def load_dataset(cls, data_path):
