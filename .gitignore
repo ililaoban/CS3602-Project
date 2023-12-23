@@ -1,3 +1,5 @@
 .vscode/
 *.bin
 __pycache__
+model/__pycache__
+utils/__pycache__
