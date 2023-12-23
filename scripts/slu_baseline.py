@@ -76,7 +76,7 @@ def decode(choice):
             labels.extend(label)
             total_loss += loss
             count += 1
-        if args.pinyin_correction and choice == "dev":
+        if args.pinyin and choice == "dev":
             predictions = Example.pinyin_correction(predictions=predictions)
         metrics = Example.evaluator.acc(predictions, labels)
     torch.cuda.empty_cache()
