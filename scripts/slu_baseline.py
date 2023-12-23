@@ -21,6 +21,8 @@ print("Initialization finished ...")
 print("Random seed is set to %d" % (args.seed))
 print("Use GPU with index %s" % (args.device) if args.device >= 0 else "Use CPU as target torch device")
 
+if args.pinyin:
+    print("Pinyin is enabled")
 if args.crf:
     print("CRF is enabled")
 if args.augment:
