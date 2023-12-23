@@ -70,7 +70,6 @@ def decode(choice):
             labels.extend(label)
             total_loss += loss
             count += 1
-        # Bo Huang
         if args.pinyin_correction and choice == "dev":
             predictions = Example.pinyin_correction(predictions=predictions)
         metrics = Example.evaluator.acc(predictions, labels)

@@ -47,7 +47,6 @@ class Example():
         l = Example.label_vocab
         self.tag_id = [l.convert_tag_to_idx(tag) for tag in self.tags]
 
-    # Bo Huang
     @classmethod
     def pinyin_correction(cls, predictions):
         select_pos_set = {'poi名称', 'poi修饰', 'poi目标', '起点名称', '起点修饰', '起点目标', '终点名称', '终点修饰', '终点目标', '途经点名称'}
