@@ -81,8 +81,11 @@ class MyDataset(Dataset):
             return
         self.label_converter = label_converter
         print("begin initilization in data.py")
-        tokenizer = BertTokenizer.from_pretrained("/mnt/studio/stu238/CSCode/NLPcode/niefan/CS3602-Group-Project/bert-base-chinese", local_files_only=True)
-        model = BertModel.from_pretrained("/mnt/studio/stu238/CSCode/NLPcode/niefan/CS3602-Group-Project/bert-base-chinese", local_files_only=True)
+        tokenizer = BertTokenizer.from_pretrained(model_name)
+        model = BertModel.from_pretrained(model_name)
+        # tokenizer = BertTokenizer.from_pretrained("/mnt/studio/stu238/CSCode/NLPcode/bert-gru-dev/CS3602-Project-bert-gru-dev/bert-base-chinese", local_files_only=True)
+        # model = BertModel.from_pretrained("/mnt/studio/stu238/CSCode/NLPcode/bert-gru-dev/CS3602-Project-bert-gru-dev/bert-base-chinese", local_files_only=True)
+        
         # output_len = list(model.parameters())[-1].shape[0]
         print("finish initilization in data.py")
         with open(data_path, encoding='utf-8') as f:

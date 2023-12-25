@@ -1,7 +1,7 @@
 from typing import List, Tuple
 
 import torch
-from utils.bert.bert_data import BIO, Label, LabelConverter
+from dataset.data import BIO, Label, LabelConverter
 
 def get_output(text: List[str], output: torch.Tensor, label_converter: LabelConverter) -> List[Tuple[str, str, str]]:
     ret = []

@@ -2,12 +2,12 @@ import os
 from datetime import datetime
 
 import torch
-from utils.bert.bert_data import LabelConverter, MyDataLoader, MyDataset
+from dataset.data import LabelConverter, MyDataLoader, MyDataset
 from utils.bert.decoder import SimpleDecoder
 from torch import nn
 from torch.optim import Adam
 from utils.bert.arguments import arguments
-from utils.evaluator import Evaluator
+from utils.bert.evaluator import Evaluator
 from utils.initialization import args_print
 from utils.bert.logger import Logger
 from utils.bert.output import get_output

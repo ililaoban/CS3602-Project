@@ -4,3 +4,6 @@ __pycache__
 model/__pycache__
 utils/__pycache__
 utils/bert/__pycache__
+*.Zone.Identifier
+utils/*.Zone.Identifier
+cache/
