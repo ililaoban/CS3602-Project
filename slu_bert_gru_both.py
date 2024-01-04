@@ -83,7 +83,16 @@ for run, seed in enumerate(random_seeds):
             batch_loss = 0
             for round_x, round_y in zip(batch_x, batch_y):
                 for x, y in zip(round_x, round_y):
-                    output = decoder(x.vector_with_noise)
+                    output1 = decoder(x.vector_with_noise)
+                    output2 = decoder(x.vector_without_noise)
+                    size1=output1.shape
+                    size2=output2.shape
+                    size1=size1[0]
+                    size2=size2[0]
+                    if (size1==size2):
+                        output=(output1+output2)/2
+                    else:
+                        output = output1
                     loss = loss_fn(output, y)
                     total_loss += loss
                     batch_loss += loss
