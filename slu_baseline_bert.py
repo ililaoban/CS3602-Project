@@ -252,7 +252,7 @@ elif args.dev_test:
             decoder = SimpleDecoder(args,encoding_len, label_converter.num_indexes).to(args.device)
 
 
-        check_point = torch.load(open('slu-bert-GRU-0--Sche_LR--300.bin', 'rb'), map_location='cuda')
+        check_point = torch.load(open('bert_model.bin', 'rb'), map_location='cuda')
         decoder.load_state_dict(check_point['model'])
         loss_fn = nn.CrossEntropyLoss()
 

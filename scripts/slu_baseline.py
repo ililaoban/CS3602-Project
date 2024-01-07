@@ -54,7 +54,7 @@ model = SLUTagging(args).to(device)
 Example.word2vec.load_embeddings(model.word_embed, Example.word_vocab, device=device)
 
 if args.testing:
-    check_point = torch.load(open('model.bin', 'rb'), map_location=device,encoding='UTF-8')
+    check_point = torch.load(open('baseline_model.bin', 'rb'), map_location=device,encoding='UTF-8')
     model.load_state_dict(check_point['model'])
     print("Load saved model from root path")
 
@@ -176,7 +176,7 @@ if not args.testing:
             torch.save({
                 'epoch': i, 'model': model.state_dict(),
                 'optim': optimizer.state_dict(),
-            }, open('model.bin', 'wb'))
+            }, open('baseline_model.bin', 'wb'))
             print('NEW BEST MODEL: \tEpoch: %d\tDev loss: %.4f\tDev acc: %.2f\tDev fscore(p/r/f): (%.2f/%.2f/%.2f)' % (i, dev_loss, dev_acc, dev_fscore['precision'], dev_fscore['recall'], dev_fscore['fscore']))
 
     print('FINAL BEST RESULT: \tEpoch: %d\tDev loss: %.4f\tDev acc: %.4f\tDev fscore(p/r/f): (%.4f/%.4f/%.4f)' % (best_result['iter'], best_result['dev_loss'], best_result['dev_acc'], best_result['dev_f1']['precision'], best_result['dev_f1']['recall'], best_result['dev_f1']['fscore']))
