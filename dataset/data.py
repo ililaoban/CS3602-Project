@@ -98,7 +98,6 @@ class MyDataset(Dataset):
         from tqdm import tqdm
         
         for i in tqdm(data):
-            print("iteration")
             n_utt = len(i)
             features = [None] * n_utt
             labels = [None] * n_utt

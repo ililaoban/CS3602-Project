@@ -36,8 +36,10 @@ def add_argument_base(arg_parser):
     #### Pinyin Correction ####
     arg_parser.add_argument('--pinyin', action='store_true', help='whether to use pinyin correction')
     #### Common Decoder Hyperparams ####
-    arg_parser.add_argument('--crf', action='store_true', help='Enable CRF')
+    arg_parser.add_argument('--crf', action='store_true', help='Enable crf')
     #### BERT ####
     arg_parser.add_argument('--bert', action='store_true', help='Enable BERT')
+    #### Test ####
+    arg_parser.add_argument('--dev_test', action='store_true', help='Testing on Dev')
 
     return arg_parser
