@@ -7,6 +7,7 @@ from typing import List, Tuple
 
 import torch
 from dataset.data import BIO, Label, LabelConverter
+from torchcrf import CRF
 
 
 class SimpleDecoder(nn.Module):
@@ -23,6 +24,32 @@ class SimpleDecoder(nn.Module):
     def forward(self, x):
         x = self.rnn(x)[0]
         return self.fnn(x)
+
+class TaggingFNNCRFDecoder(nn.Module):
+
+    def __init__(self, arguments, input_size, num_tags):
+        super(TaggingFNNCRFDecoder, self).__init__()
+        self.num_tags = num_tags
+        self.output_layer = nn.Linear(input_size, num_tags)
+        self.crf = CRF(num_tags, batch_first=True)
+
+    def loss_func(self, logits, labels, mask):
+        # print(self.crf.forward(logits, labels, mask, reduction='mean'))
+
+        return -self.crf.forward(logits, labels, mask, reduction='mean')
+        
+        
+        
+    def forward(self, hiddens, mask, labels=None):
+        logits = self.output_layer(hiddens)
+        pred = self.crf.decode(logits, mask)
+        # print(len(pred), len(pred[4])) # bsize x seqlen 列表里的长度和句子本身的长度是一一对应的
+        #pred = torch.tensor(pred)
+        
+        if labels is not None:
+            loss = self.loss_func(logits, labels, mask)
+            return pred, loss
+        return pred, None
 
 
 

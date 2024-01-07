@@ -6,7 +6,7 @@ from torch import nn
 from datetime import datetime
 from utils.initialization import set_random_seed,args_print
 from dataset.data import LabelConverter, MyDataLoader, MyDataset
-from model.slu_bert import SimpleDecoder,get_output
+from model.slu_bert import SimpleDecoder,get_output, TaggingFNNCRFDecoder
 from utils.evaluator import Evaluator_bert as Evaluator
 from utils.logger import Logger
 
@@ -70,7 +70,13 @@ print("finish initialization")
 for run, seed in enumerate(random_seeds):
     # model configuration
     set_random_seed(seed)
-    decoder = SimpleDecoder(args,encoding_len, label_converter.num_indexes).to(args.device)
+
+    # CRF
+    if args.CRF:
+        decoder = TaggingFNNCRFDecoder(args,encoding_len, label_converter.num_indexes).to(args.device)
+    else:
+        decoder = SimpleDecoder(args,encoding_len, label_converter.num_indexes).to(args.device)
+
     # check_point = torch.load(open('trained-models/slu-bert-LSTM-final.bin', 'rb'), map_location=args.device)
     # decoder.load_state_dict(check_point['model'])
     
