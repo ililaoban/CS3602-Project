@@ -39,5 +39,7 @@ def add_argument_base(arg_parser):
     arg_parser.add_argument('--crf', action='store_true', help='Enable CRF')
     #### BERT ####
     arg_parser.add_argument('--bert', action='store_true', help='Enable BERT')
-
+    
+    #### Test ####
+    arg_parser.add_argument('--dev_test', action='store_true', help='Testing on Dev')
     return arg_parser
