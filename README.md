@@ -10,3 +10,6 @@ The using of pinyin correction is just add `--pinyin` when testing.
 
   arg_parser.add_argument('--augment', action='store_true', help='Enable data augement.')
 
+
+  BERT use: HF_ENDPOINT=https://hf-mirror.com python slu_baseline_bert.py  --num_layer 1 --device 0 --hidden_size 128                                       
+
