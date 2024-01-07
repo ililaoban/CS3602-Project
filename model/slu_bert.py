@@ -26,30 +26,26 @@ class SimpleDecoder(nn.Module):
         return self.fnn(x)
 
 class TaggingFNNCRFDecoder(nn.Module):
-
-    def __init__(self, arguments, input_size, num_tags):
+    def __init__(self, arguments, in_len: int, out_len: int):
         super(TaggingFNNCRFDecoder, self).__init__()
-        self.num_tags = num_tags
-        self.output_layer = nn.Linear(input_size, num_tags)
-        self.crf = CRF(num_tags, batch_first=True)
+        hidden_size = arguments.hidden_size
+        self.rnn = getattr(nn, arguments.rnn)(input_size=in_len, hidden_size=hidden_size // 2,
+                                              num_layers=arguments.num_layer, batch_first=True, 
+                                              bidirectional=True, dropout=0.1)
+        self.fc = nn.Linear(hidden_size, out_len)
+        self.crf = CRF(out_len, batch_first=True)
 
-    def loss_func(self, logits, labels, mask):
-        # print(self.crf.forward(logits, labels, mask, reduction='mean'))
+    def forward(self, x, labels=None):
+        # Pass the input through the RNN layer
+        x = self.rnn(x)[0]
+        emissions = self.fc(x)
 
-        return -self.crf.forward(logits, labels, mask, reduction='mean')
-        
-        
-        
-    def forward(self, hiddens, mask, labels=None):
-        logits = self.output_layer(hiddens)
-        pred = self.crf.decode(logits, mask)
-        # print(len(pred), len(pred[4])) # bsize x seqlen 列表里的长度和句子本身的长度是一一对应的
-        #pred = torch.tensor(pred)
-        
         if labels is not None:
-            loss = self.loss_func(logits, labels, mask)
-            return pred, loss
-        return pred, None
+            # If labels are provided, return the loss
+            loss = -self.crf(emissions, labels)
+            return loss
+        # Otherwise, return the CRF predictions
+        return self.crf.decode(emissions)
 
 
 

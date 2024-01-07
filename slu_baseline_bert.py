@@ -72,7 +72,7 @@ for run, seed in enumerate(random_seeds):
     set_random_seed(seed)
 
     # CRF
-    if args.CRF:
+    if args.crf:
         decoder = TaggingFNNCRFDecoder(args,encoding_len, label_converter.num_indexes).to(args.device)
     else:
         decoder = SimpleDecoder(args,encoding_len, label_converter.num_indexes).to(args.device)
