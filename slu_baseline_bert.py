@@ -31,7 +31,7 @@ print("Random seed is set to %d" % (args.seed))
 print("Use GPU with index %s" % (args.device) if args.device >= 0 else "Use CPU as target torch device")
 
 
-random_seeds = [99,999,9999,99999,114514]
+random_seeds = [2003,20003,2000003]
 os.makedirs('trained-models', exist_ok=True)
 
 
